@@ -30,7 +30,6 @@
       height: auto;
       text-align: center;
       position: relative;
-      perspective: 1000px;
     }
 
     /* SCREENS */
@@ -40,7 +39,7 @@
       left: 50%;
       transform: translate(-50%, -50%) scale(0.8);
       width: 100%;
-      background: rgba(255, 255, 255, 0.85);
+      background: rgba(255, 255, 255, 0.9);
       backdrop-filter: blur(10px);
       padding: 30px 20px;
       border-radius: 20px;
@@ -53,7 +52,6 @@
       align-items: center;
     }
 
-    /* Active Screen Class */
     .screen.active {
       opacity: 1;
       pointer-events: all;
@@ -119,43 +117,80 @@
       margin-top: 10px;
     }
     .btn:active { transform: translateY(5px); box-shadow: none; }
-    
-    /* SPECIFIC BUTTONS */
     .btn-red { background: #ff4d4d; box-shadow: 0 5px 0 #cc0000; }
-    .btn-group { display: flex; gap: 15px; justify-content: center; }
 
-    /* ANIMATIONS */
-    .shake { animation: shake 0.5s infinite; }
-    @keyframes shake {
-      0% { transform: translate(1px, 1px) rotate(0deg); }
-      10% { transform: translate(-1px, -2px) rotate(-1deg); }
-      20% { transform: translate(-3px, 0px) rotate(1deg); }
-      30% { transform: translate(3px, 2px) rotate(0deg); }
-      40% { transform: translate(1px, -1px) rotate(1deg); }
-      50% { transform: translate(-1px, 2px) rotate(-1deg); }
-      60% { transform: translate(-3px, 1px) rotate(0deg); }
-      70% { transform: translate(3px, 1px) rotate(-1deg); }
-      80% { transform: translate(-1px, -1px) rotate(1deg); }
-      90% { transform: translate(1px, 2px) rotate(0deg); }
-      100% { transform: translate(1px, -2px) rotate(-1deg); }
+    /* --- SLIDER GAME STYLES --- */
+    .slider-wrapper {
+      width: 100%;
+      margin: 20px 0;
+      position: relative;
+      padding: 0 10px;
+    }
+
+    .location-labels {
+      display: flex;
+      justify-content: space-between;
+      font-weight: 900;
+      color: #888;
+      font-size: 0.9rem;
+      margin-bottom: 5px;
+    }
+
+    input[type=range] {
+      -webkit-appearance: none;
+      width: 100%;
+      height: 15px;
+      border-radius: 10px;
+      background: linear-gradient(to right, #ddd 0%, #ddd 100%);
+      outline: none;
+      transition: background 0.2s;
+      border: 2px solid #eee;
+    }
+
+    /* The Draggable Plane */
+    input[type=range]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: #fff;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+      /* Plane Icon */
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23d63384'%3E%3Cpath d='M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z'/%3E%3C/svg%3E");
+      background-size: 70%;
+      background-repeat: no-repeat;
+      background-position: center;
+      transform: rotate(90deg); /* Point plane to right */
+    }
+
+    #distance-display {
+      font-size: 1.8rem;
+      color: #d63384;
+      font-weight: 900;
+      margin-top: 15px;
+    }
+    
+    .sub-distance {
+      font-size: 0.9rem;
+      color: #888;
     }
 
     /* GALLERY FOR FINAL SCREEN */
     .gallery { display: flex; gap: 10px; width: 100%; justify-content: center; }
     .gallery .photo-frame { width: 48%; }
 
-    /* FLOATING BACKGROUND ITEMS */
-    .bg-icon { position: absolute; font-size: 3rem; opacity: 0.5; z-index: -1; animation: float 6s infinite ease-in-out; }
-    @keyframes float { 0%,100%{transform:translateY(0);} 50%{transform:translateY(-20px);} }
-
+    /* ANIMATIONS */
+    .shake { animation: shake 0.5s infinite; }
+    @keyframes shake {
+      0% { transform: translate(1px, 1px) rotate(0deg); }
+      50% { transform: translate(-1px, 2px) rotate(-1deg); }
+      100% { transform: translate(1px, -2px) rotate(-1deg); }
+    }
   </style>
 </head>
 <body>
-
-  <div class="bg-icon" style="top: 10%; left: 5%;">✈️</div>
-  <div class="bg-icon" style="top: 20%; right: 10%; animation-delay: 1s;">💔</div>
-  <div class="bg-icon" style="bottom: 15%; left: 10%; animation-delay: 2s;">🍟</div>
-  <div class="bg-icon" style="bottom: 20%; right: 5%; animation-delay: 3s;">🍜</div>
 
   <div id="container">
 
@@ -176,17 +211,24 @@
       </div>
       <h1 class="sweet-text">It's okie...</h1>
       <p>I still love you my dishu babyyy <br> ❤️❤️❤️</p>
-      <button class="btn" onclick="nextScreen(3)">But I have a question... 👉👈</button>
+      <button class="btn" onclick="nextScreen(3)">But I have a mission for you... ✈️</button>
     </div>
 
     <div class="screen" id="screen-3">
-      <h1 class="sweet-text" style="font-size: 2.5rem;">Be my Valentine?</h1>
-      <p id="game-text">Since I'm missing you...</p>
+      <h1 class="sweet-text">Come Home!</h1>
+      <p>Drag the plane to close the gap!</p>
       
-      <div class="btn-group">
-        <button class="btn" onclick="nextScreen(4)">YES! 🥰</button>
-        <button class="btn btn-red" id="no-btn" onmouseover="runAway()" ontouchstart="runAway()" onclick="fakeClick()">No 😈</button>
+      <div class="slider-wrapper">
+        <div class="location-labels">
+          <span>DELHI 🏛️</span>
+          <span>CHENNAI 🌊</span>
+        </div>
+        
+        <input type="range" min="0" max="100" value="0" id="distance-slider" oninput="updateDistance()">
       </div>
+      
+      <div id="distance-display">2200 km</div>
+      <div class="sub-distance">Distance Remaining</div>
     </div>
 
     <div class="screen" id="screen-4">
@@ -210,70 +252,58 @@
 
   <script>
     function nextScreen(screenNumber) {
-      // Hide all screens
       document.querySelectorAll('.screen').forEach(s => {
         s.classList.remove('active');
       });
 
-      // Show targeted screen
       const target = document.getElementById('screen-' + screenNumber);
       target.classList.add('active');
 
-      // Specific effects for screens
+      // Theme Colors
       if (screenNumber === 1) {
-        document.body.style.backgroundColor = "#ffcccc"; // Angry red-ish
-      } else if (screenNumber === 2) {
-        document.body.style.backgroundColor = "#ffe6f2"; // Soft pink
-      } else if (screenNumber === 4) {
+        document.body.style.backgroundColor = "#ffcccc"; 
+      } else {
+        document.body.style.backgroundColor = "#ffe6f2";
+      }
+
+      if (screenNumber === 4) {
         triggerConfetti();
       }
     }
 
-    // Runaway Button Logic
-    function runAway() {
-      const btn = document.getElementById('no-btn');
-      const container = document.getElementById('screen-3'); // Constrain to the card for easier UX or window for chaos
-      
-      // Let's make it run anywhere on screen to be properly annoying
-      const x = Math.random() * (window.innerWidth - 100);
-      const y = Math.random() * (window.innerHeight - 50);
-      
-      btn.style.position = 'fixed';
-      btn.style.left = x + 'px';
-      btn.style.top = y + 'px';
-      
-      // Change text for fun
-      const texts = ["Can't click me!", "Too slow!", "Nope!", "Try again!", "Miss me?"];
-      btn.innerText = texts[Math.floor(Math.random() * texts.length)];
-    }
+    // SLIDER LOGIC
+    function updateDistance() {
+      const slider = document.getElementById('distance-slider');
+      const display = document.getElementById('distance-display');
+      const percentage = slider.value;
 
-    // Fallback if they manage to click it
-    function fakeClick() {
-      runAway();
-      alert("Nice try! But you can't say no! 😜");
+      // 2200 km total distance
+      // If slider is at 0%, distance is 2200. If slider is 100%, distance is 0.
+      const kmLeft = Math.floor(2200 - (percentage * 22));
+
+      display.innerText = kmLeft + " km";
+
+      // Color change logic (Pink fills the bar as she drags)
+      slider.style.background = `linear-gradient(to right, #ff66b2 ${percentage}%, #ddd ${percentage}%)`;
+
+      // Check for success
+      if (percentage == 100) {
+        display.innerText = "WELCOME HOME! ❤️";
+        slider.disabled = true;
+        
+        setTimeout(() => {
+          nextScreen(4);
+        }, 800);
+      }
     }
 
     function triggerConfetti() {
       const duration = 3000;
       const end = Date.now() + duration;
-
       (function frame() {
-        confetti({
-          particleCount: 5,
-          angle: 60,
-          spread: 55,
-          origin: { x: 0 }
-        });
-        confetti({
-          particleCount: 5,
-          angle: 120,
-          spread: 55,
-          origin: { x: 1 }
-        });
-
-        if (Date.now() < end) {
-          requestAnimationFrame(frame);
-        }
+        confetti({ particleCount: 5, angle: 60, spread: 55, origin: { x: 0 } });
+        confetti({ particleCount: 5, angle: 120, spread: 55, origin: { x: 1 } });
+        if (Date.now() < end) requestAnimationFrame(frame);
       }());
     }
   </script>

@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>For Disha ❤️</title>
+  
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;900&family=Pacifico&display=swap" rel="stylesheet">
+  
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  
+  <style>
+    /* RESET & CORE */
+    * { box-sizing: border-box; }
+    body {
+      background-color: #ffe6f2;
+      font-family: 'Nunito', sans-serif;
+      margin: 0;
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+    }
+
+    /* ANIMATED BACKGROUND BLOBS */
+    .blob {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(40px);
+      z-index: 0;
+      opacity: 0.6;
+      animation: moveBlob 10s infinite alternate;
+    }
+    .blob-1 { width: 300px; height: 300px; background: #ff99cc; top: -50px; left: -50px; }
+    .blob-2 { width: 250px; height: 250px; background: #99ccff; bottom: -50px; right: -50px; animation-delay: -5s; }
+    .blob-3 { width: 200px; height: 200px; background: #ffcc99; bottom: 20%; left: 20%; animation-delay: -2s; }
+
+    @keyframes moveBlob {
+      0% { transform: translate(0, 0) scale(1); }
+      100% { transform: translate(30px, -30px) scale(1.1); }
+    }
+
+    /* GLASSMORPHISM CARD */
+    .glass-panel {
+      z-index: 10;
+      background: rgba(255, 255, 255, 0.65);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 2px solid rgba(255, 255, 255, 0.8);
+      padding: 30px 20px;
+      border-radius: 25px;
+      box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+      width: 90%;
+      max-width: 400px;
+      text-align: center;
+      transition: transform 0.3s ease, opacity 0.3s ease;
+      position: relative;
+    }
+
+    /* PHOTO FRAME - POLAROID STYLE */
+    .photo-frame {
+      background: white;
+      padding: 10px 10px 35px 10px;
+      box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+      transform: rotate(-2deg);
+      width: 100%;
+      max-width: 280px;
+      margin: 0 auto 20px auto;
+      border-radius: 4px;
+      transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    
+    .photo-frame img {
+      width: 100%;
+      height: auto;
+      border-radius: 2px;
+      display: block;
+      /* Ensures the image doesn't look stretched */
+      object-fit: cover; 
+      aspect-ratio: 1 / 1; 
+    }
+
+    /* TYPOGRAPHY */
+    h1 {
+      color: #d63384;
+      font-family: 'Pacifico', cursive;
+      font-size: 2rem;
+      margin: 5px 0 15px 0;
+      text-shadow: 2px 2px 0px rgba(255,255,255,0.5);
+    }
+
+    #reason-display {
+      font-size: 1.1rem;
+      color: #444;
+      margin-bottom: 25px;
+      min-height: 50px;
+      font-weight: 700;
+      line-height: 1.4;
+    }
+
+    /* BUTTONS */
+    .btn-container {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      position: relative;
+      height: 60px; /* Pre-allocate space */
+    }
+
+    button {
+      background: linear-gradient(135deg, #ff66b2 0%, #ff3385 100%);
+      color: white;
+      border: none;
+      padding: 12px 25px;
+      font-size: 1rem;
+      border-radius: 50px;
+      font-weight: 800;
+      cursor: pointer;
+      box-shadow: 0 5px 15px rgba(255, 51, 133, 0.3);
+      transition: transform 0.2s, box-shadow 0.2s;
+      white-space: nowrap;
+      /* Prevent text selection on mobile tap */
+      user-select: none; 
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    button:active {
+      transform: scale(0.95);
+    }
+
+    /* Runaway Button Specifics */
+    #no-btn {
+      position: relative;
+      transition: all 0.3s ease;
+      z-index: 50;
+    }
+
+    /* ANIMATIONS */
+    .shake-anim {
+      animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both;
+    }
+
+    @keyframes shake {
+      10%, 90% { transform: rotate(-2deg) translate3d(-1px, 0, 0); }
+      20%, 80% { transform: rotate(-2deg) translate3d(2px, 0, 0); }
+      30%, 50%, 70% { transform: rotate(-2deg) translate3d(-4px, 0, 0); }
+      40%, 60% { transform: rotate(-2deg) translate3d(4px, 0, 0); }
+    }
+
+    /* HIDDEN SUCCESS SCREEN */
+    #yes-screen {
+      display: none;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 20;
+      width: 90%;
+      max-width: 400px;
+      text-align: center;
+    }
+
+    /* EMOJI FLOATING */
+    .float-emoji {
+      position: absolute;
+      font-size: 2rem;
+      animation: floatUp 8s linear infinite;
+      opacity: 0.6;
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    @keyframes floatUp {
+      0% { transform: translateY(110vh) rotate(0deg); opacity: 0; }
+      10% { opacity: 0.7; }
+      100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
+    }
+
+  </style>
+</head>
+<body>
+
+  <div class="blob blob-1"></div>
+  <div class="blob blob-2"></div>
+  <div class="blob blob-3"></div>
+
+  <div class="float-emoji" style="left: 10%; animation-delay: 0s;">✈️</div>
+  <div class="float-emoji" style="left: 30%; animation-delay: 2s;">❤️</div>
+  <div class="float-emoji" style="left: 70%; animation-delay: 4s;">🌏</div>
+  <div class="float-emoji" style="left: 50%; animation-delay: 6s;">💌</div>
+  <div class="float-emoji" style="left: 85%; animation-delay: 1s;">🍜</div>
+
+  <div class="glass-panel" id="main-card">
+    
+    <div class="photo-frame" id="photo-wrapper">
+      <img id="main-img" 
+           src="photo1.jpg.jpeg" 
+           onerror="this.src='https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExM2Q0b3J6bWF2aG1tOWZ6bWF2aG1tOWZ6bWF2aG1tOWZ6bWF2aG1tOSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/3o7TKoWXm3okO1kgHC/giphy.gif'" 
+           alt="Us">
+    </div>
+
+    <h1>Distance sucks... ✈️</h1>
+    
+    <div id="reason-display">
+      But I have a question for you...
+    </div>
+
+    <div class="btn-container">
+      <button onclick="handleYes()">Yes! ❤️</button>
+      <button id="no-btn" onclick="handleNo()" onmouseover="runAway()" ontouchstart="runAway()">No 😈</button>
+    </div>
+  </div>
+
+  <div id="yes-screen" class="glass-panel" style="background: rgba(255, 255, 255, 0.9);">
+    
+    <div class="photo-frame" style="transform: rotate(3deg);">
+      <img src="photo2.jpg.jpeg" 
+           onerror="this.src='https://media.giphy.com/media/26BRv0ThflsHCqDrG/giphy.gif'" 
+           alt="Happy Us">
+    </div>
+
+    <h1 style="margin-top: 10px; font-size: 2.5rem;">YAY! 🥰</h1>
+    <p style="font-size: 1.3rem; color: #d63384; font-weight: bold; line-height: 1.5;">
+      I love you dishu baby,<br>happy 2 years again! 💖✨
+    </p>
+    <div style="font-size: 3rem; margin-top: 10px;">💍🥂🏠</div>
+  </div>
+
+  <script>
+    const reasons = [
+      "Will you be my Valentine? 🥺",
+      "I know I'm far away... ✈️",
+      "But I promise to send food! 🍟",
+      "And annoy you forever! 🤪",
+      "Don't break my heart! 💔",
+      "Okay, last chance... 🔫",
+      "Just kidding, love you! ❤️"
+    ];
+
+    let currentReason = 0;
+    let runawayMode = false;
+
+    function handleNo() {
+      // If we are in runaway mode, the button should have moved, 
+      // but if they somehow clicked it (fast fingers), we just move it again.
+      if (runawayMode) {
+        runAway();
+        return;
+      }
+
+      const display = document.getElementById('reason-display');
+      const photoWrapper = document.getElementById('photo-wrapper');
+      const noBtn = document.getElementById('no-btn');
+
+      // Visual Feedback: Shake the photo
+      photoWrapper.classList.remove('shake-anim');
+      void photoWrapper.offsetWidth; // trigger reflow
+      photoWrapper.classList.add('shake-anim');
+
+      // Advance text
+      currentReason++;
+      if (currentReason < reasons.length) {
+        display.innerText = reasons[currentReason];
+      }
+
+      // Activate Runaway Mode at the end
+      if (currentReason >= reasons.length - 1) {
+        runawayMode = true;
+        noBtn.innerText = "Can't say No! 🏃‍♀️";
+        display.innerText = "You're stuck with me! ❤️";
+      }
+    }
+
+    function runAway() {
+      if (!runawayMode) return;
+
+      const btn = document.getElementById('no-btn');
+      
+      // Get viewport dimensions
+      const viewportWidth = window.innerWidth;
+      const viewportHeight = window.innerHeight;
+      
+      // Get button dimensions
+      const btnWidth = btn.offsetWidth;
+      const btnHeight = btn.offsetHeight;
+
+      // Calculate safe area (padding from edges)
+      const padding = 20;
+
+      // Generate random position within viewport
+      const newX = Math.random() * (viewportWidth - btnWidth - padding * 2) + padding;
+      const newY = Math.random() * (viewportHeight - btnHeight - padding * 2) + padding;
+
+      // Apply fixed positioning to break out of the flex container
+      btn.style.position = 'fixed';
+      btn.style.left = `${newX}px`;
+      btn.style.top = `${newY}px`;
+    }
+
+    function handleYes() {
+      // Hide Main Card
+      const mainCard = document.getElementById('main-card');
+      mainCard.style.opacity = '0';
+      mainCard.style.transform = 'scale(0.8)';
+      
+      setTimeout(() => {
+        mainCard.style.display = 'none';
+        
+        // Show Success Card
+        const successScreen = document.getElementById('yes-screen');
+        successScreen.style.display = 'block';
+        
+        // Use a small timeout to allow display:block to render before adding opacity for transition
+        setTimeout(() => {
+          successScreen.style.opacity = '1';
+          successScreen.style.transform = 'translate(-50%, -50%) scale(1)';
+        }, 50);
+
+        triggerConfetti();
+      }, 300);
+    }
+
+    function triggerConfetti() {
+      const duration = 5 * 1000;
+      const animationEnd = Date.now() + duration;
+      const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 100 };
+
+      const randomInRange = (min, max) => Math.random() * (max - min) + min;
+
+      const interval = setInterval(function() {
+        const timeLeft = animationEnd - Date.now();
+
+        if (timeLeft <= 0) {
+          return clearInterval(interval);
+        }
+
+        const particleCount = 50 * (timeLeft / duration);
+        confetti({ ...defaults, particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 } });
+        confetti({ ...defaults, particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } });
+      }, 250);
+    }
+  </script>
+</body>
+</html>
